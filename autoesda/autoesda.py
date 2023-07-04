@@ -127,7 +127,7 @@ def generate_report(gdf):
 
         #Boxplot
         g1.boxplot(gdf[cols], vert=False)
-        g1.set_title('Boxplot of ' + cols)
+        g1.set_title(f'Boxplot of {cols}')
 
         #Moran's Calculations
         column_values = gdf[cols].values
@@ -137,22 +137,32 @@ def generate_report(gdf):
 
         #Reference Distribution
         plot_moran_simulation(moransI_queen,aspect_equal=False, ax=g2)
-        g2.set_title("Reference Distribution of " + cols)
-        anchorText = "Moran's I: " + str(round(moransI_queen.I, 5)) + "\nn: " + str(moransI_queen.n) + "\np-value: " + str(moransI_queen.p_sim) + "\nz-score: " + str(round(moransI_queen.z_sim,5)) + "\nPermutations: " + str(moransI_queen.permutations)
+        g2.set_title(f"Reference Distribution of {cols}")
+        anchorText = (
+            f"Moran's I: {str(round(moransI_queen.I, 5))}"
+            + "\nn: "
+            + str(moransI_queen.n)
+            + "\np-value: "
+            + str(moransI_queen.p_sim)
+            + "\nz-score: "
+            + str(round(moransI_queen.z_sim, 5))
+            + "\nPermutations: "
+            + str(moransI_queen.permutations)
+        )
         at = AnchoredText(anchorText, prop=dict(size=10), frameon=True, loc='upper right')
         g2.add_artist(at)
         #LISA Scatterplot
         moran_scatterplot(moran_local, p=0.05, ax=g3, aspect_equal=False)
-        g3.set_title("Morans Local Scatterplot of " + cols)
+        g3.set_title(f"Morans Local Scatterplot of {cols}")
         g3.set_xlabel(cols)
-        g3.set_ylabel('Spatial Lag of ' + cols)
+        g3.set_ylabel(f'Spatial Lag of {cols}')
         #LISA Cluster Map
         lisa_cluster(moran_local, gdf, ax=g4, legend_kwds={'loc': 'best'})
-        g4.set_title("LISA Cluster Map of " + cols)
+        g4.set_title(f"LISA Cluster Map of {cols}")
 
         #Histogram
         g5.hist(gdf[cols], color='teal',edgecolor='black')
-        g5.set_title('Histogram of ' + cols)
+        g5.set_title(f'Histogram of {cols}')
         g5.set_xlabel(cols)
         g5.set_ylabel('Count')
 
@@ -201,7 +211,10 @@ def generate_report(gdf):
     count = 0
     for cols in numeric_columns:
         tab_string+=str('<button class="tablinks" onclick="openTab(event, \'' + cols +  '\')">' + cols + '</button>\n')
-        div_string+=str('<div id="' + cols + '" class="tabcontent table-responsive"><img src="data:image/png;base64,' + image_array[count] +'"></div>\n')
+        div_string += str(
+            f'<div id="{cols}" class="tabcontent table-responsive"><img src="data:image/png;base64,{image_array[count]}'
+            + '"></div>\n'
+        )
         count=count+1
 
     #Create String for HTML report
@@ -319,9 +332,8 @@ def generate_report(gdf):
     </html> 
 
     ''')
-    file = open('autoESDAreport.html', 'w')
-    file.write(html_string)
-    file.close()
+    with open('autoESDAreport.html', 'w') as file:
+        file.write(html_string)
     print('Success! Report has been saved to your working folder directory.')
 
 def generate_html_string(gdf):
@@ -438,7 +450,7 @@ def generate_html_string(gdf):
 
         #Boxplot
         g1.boxplot(gdf[cols], vert=False)
-        g1.set_title('Boxplot of ' + cols)
+        g1.set_title(f'Boxplot of {cols}')
 
         #Moran's Calculations
         column_values = gdf[cols].values
@@ -448,22 +460,32 @@ def generate_html_string(gdf):
 
         #Reference Distribution
         plot_moran_simulation(moransI_queen,aspect_equal=False, ax=g2)
-        g2.set_title("Reference Distribution of " + cols)
-        anchorText = "Moran's I: " + str(round(moransI_queen.I, 5)) + "\nn: " + str(moransI_queen.n) + "\np-value: " + str(moransI_queen.p_sim) + "\nz-score: " + str(round(moransI_queen.z_sim,5)) + "\nPermutations: " + str(moransI_queen.permutations)
+        g2.set_title(f"Reference Distribution of {cols}")
+        anchorText = (
+            f"Moran's I: {str(round(moransI_queen.I, 5))}"
+            + "\nn: "
+            + str(moransI_queen.n)
+            + "\np-value: "
+            + str(moransI_queen.p_sim)
+            + "\nz-score: "
+            + str(round(moransI_queen.z_sim, 5))
+            + "\nPermutations: "
+            + str(moransI_queen.permutations)
+        )
         at = AnchoredText(anchorText, prop=dict(size=10), frameon=True, loc='upper right')
         g2.add_artist(at)
         #LISA Scatterplot
         moran_scatterplot(moran_local, p=0.05, ax=g3, aspect_equal=False)
-        g3.set_title("Morans Local Scatterplot of " + cols)
+        g3.set_title(f"Morans Local Scatterplot of {cols}")
         g3.set_xlabel(cols)
-        g3.set_ylabel('Spatial Lag of ' + cols)
+        g3.set_ylabel(f'Spatial Lag of {cols}')
         #LISA Cluster Map
         lisa_cluster(moran_local, gdf, ax=g4, legend_kwds={'loc': 'best'})
-        g4.set_title("LISA Cluster Map of " + cols)
+        g4.set_title(f"LISA Cluster Map of {cols}")
 
         #Histogram
         g5.hist(gdf[cols], color='teal',edgecolor='black')
-        g5.set_title('Histogram of ' + cols)
+        g5.set_title(f'Histogram of {cols}')
         g5.set_xlabel(cols)
         g5.set_ylabel('Count')
 
@@ -512,11 +534,14 @@ def generate_html_string(gdf):
     count = 0
     for cols in numeric_columns:
         tab_string+=str('<button class="tablinks" onclick="openTab(event, \'' + cols +  '\')">' + cols + '</button>\n')
-        div_string+=str('<div id="' + cols + '" class="tabcontent table-responsive"><img src="data:image/png;base64,' + image_array[count] +'"></div>\n')
+        div_string += str(
+            f'<div id="{cols}" class="tabcontent table-responsive"><img src="data:image/png;base64,{image_array[count]}'
+            + '"></div>\n'
+        )
         count=count+1
 
-    #Create String for HTML report
-    html_string = str('''
+    return str(
+        '''
     <!DOCTYPE html>
     <html>
     <head>
@@ -584,27 +609,35 @@ def generate_html_string(gdf):
 
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'Summary')">Summary</button>'''
-        + tab_string + '''
+        + tab_string
+        + '''
         <button class="tablinks" onclick="openTab(event, 'Correlation')">Correlation</button>
     </div>
 
     <div id="Summary" class="tabcontent">
-        ''' + summary_page + '''
+        '''
+        + summary_page
+        + '''
     </div>'''
-    + div_string + '''
+        + div_string
+        + '''
     <div id="Correlation" class="tabcontent">
     <table>
         <tr>
             <td>
                 <div class="table-responsive">
                     <h2>Correlation Heatmap</h2>
-                    <img src="data:image/png;base64,''' + correlation_heatmap_image +'''">
+                    <img src="data:image/png;base64,'''
+        + correlation_heatmap_image
+        + '''">
                 </div>
             </td>
             <td>
                 <div class="table-responsive">
                     <h2>Pairplot</h2>
-                    <img src="data:image/png;base64,''' + pairplot +'''">
+                    <img src="data:image/png;base64,'''
+        + pairplot
+        + '''">
                 </div>
             </td>
         </tr>
@@ -629,5 +662,5 @@ def generate_html_string(gdf):
     </body>
     </html> 
 
-    ''')
-    return html_string
+    '''
+    )
